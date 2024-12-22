@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1 Recensioni
+  if reviews.length > 0
+    ul.list-group
+      each review in reviews
+        li.list-group-item
+          h5 #{review.title}
+          p #{review.description}
+          p Rating: #{review.rating}
+  else
+    p Nessuna recensione disponibile.
