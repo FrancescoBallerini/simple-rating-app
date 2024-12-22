@@ -1,0 +1,12 @@
+extends index 
+
+block content
+  h1 Aggiungi una nuova recensione
+  form(method="POST" action="/recensione")
+    .mb-3
+      label(for="titolo") Titolo
+      input#titolo.form-control(type="text" name="titolo" required)
+    .mb-3
+      label(for="descrizione") Descrizione
+      textarea#descrizione.form-control(name="descrizione" rows="5" required)
+    button.btn.btn-success(type="submit") Salva

@@ -26,23 +26,29 @@ app.get('/recensioni', (req, res) => {
 	});
 });
 
+app.get('/recensione', (req, res) => {
+    res.render('recensione', { title: 'Aggiungi Recensione' });
+});
 
-// Rotta per aggiungere un record
-app.post('/add', (req, res) => {
-	const { title, description, image, rating } = req.body;
+app.post('/recensione', async (req, res) => {
+    const { title, content } = req.body; // Usa i campi definiti nel form
 
-// Inserisce un nuovo record nel database
-db.run(
-	'INSERT INTO recensioni (titolo, descrizione, immagine, voto) VALUES (?, ?, ?, ?)',
-	[titolo, descrizione, immagine, parseInt(voto)],
-	(err) => {
-		if (err) {
-		console.error('Errore durante l\'inserimento del record:', err.message);
-		res.status(500).send('Errore del server');
-		} else {
-			res.redirect('/');
-		}
-	});
+    // Verifica se i dati sono stati ricevuti correttamente
+    console.log("Dati ricevuti:", { title, content });
+
+    // Puoi aggiungere qui la logica per salvare la recensione nel database
+    db.run(
+        'INSERT INTO recensioni (titolo, descrizione) VALUES (?, ?)',
+        [title, content],
+        function (err) {
+            if (err) {
+                console.error("Errore nell'inserimento:", err.message);
+                return res.status(500).send('Errore durante il salvataggio della recensione');
+            }
+            console.log(`Recensione salvata con ID: ${this.lastID}`);
+            res.redirect('/recensioni'); // Reindirizza alla lista delle recensioni
+        }
+    );
 });
 
 // Avvia il server
