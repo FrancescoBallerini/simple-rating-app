@@ -15,36 +15,34 @@ app.get('/', (req, res) => {
 	res.render('index', { title: 'Home', active: 'home' });
 });
   
-app.get('/reviews', (req, res) => {
-	db.all('SELECT * FROM records', [], (err, rows) => {
+app.get('/recensioni', (req, res) => {
+	db.all('SELECT * FROM recensioni', [], (err, rows) => {
 		if (err) {
 		console.error(err.message);
 		res.status(500).send('Errore nel recupero delle recensioni');
 		} else {
-		res.render('reviews', { title: 'Recensioni', active: 'reviews', reviews: rows });
+		res.render('recensioni_listview', { title: 'Recensioni', active: 'recensioni', recensioni: rows });
 		}
 	});
 });
 
 
-
 // Rotta per aggiungere un record
 app.post('/add', (req, res) => {
-  const { title, description, image, rating } = req.body;
+	const { title, description, image, rating } = req.body;
 
-  // Inserisce un nuovo record nel database
-  db.run(
-    'INSERT INTO records (title, description, image, rating) VALUES (?, ?, ?, ?)',
-    [title, description, image, parseInt(rating)],
-    (err) => {
-      if (err) {
-        console.error('Errore durante l\'inserimento del record:', err.message);
-        res.status(500).send('Errore del server');
-      } else {
-        res.redirect('/');
-      }
-    }
-  );
+// Inserisce un nuovo record nel database
+db.run(
+	'INSERT INTO recensioni (titolo, descrizione, immagine, voto) VALUES (?, ?, ?, ?)',
+	[titolo, descrizione, immagine, parseInt(voto)],
+	(err) => {
+		if (err) {
+		console.error('Errore durante l\'inserimento del record:', err.message);
+		res.status(500).send('Errore del server');
+		} else {
+			res.redirect('/');
+		}
+	});
 });
 
 // Avvia il server

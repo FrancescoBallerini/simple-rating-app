@@ -1,0 +1,13 @@
+extends index 
+
+block content
+  h1 Recensioni
+  if recensioni.length > 0
+    ul.list-group
+      each recensione in recensioni
+        li.list-group-item
+          h5 #{recensione.titolo}
+          p #{recensione.descrizione}
+          p Voto: #{recensione.voto}
+  else
+    p Nessuna recensione disponibile.

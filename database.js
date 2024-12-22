@@ -11,12 +11,12 @@ const db = new sqlite3.Database('./data.db', (err) => {
 
 // Crea la tabella "records" se non esiste
 db.run(`
-  CREATE TABLE IF NOT EXISTS records (
+  CREATE TABLE IF NOT EXISTS recensioni (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    description TEXT NOT NULL,
-    image TEXT,
-    rating INTEGER NOT NULL
+    titolo TEXT NOT NULL,
+    descrizione TEXT NOT NULL,
+    immagine TEXT,
+    voto INTEGER NOT NULL
   )
 `);
 
