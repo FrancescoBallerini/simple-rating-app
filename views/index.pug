@@ -3,3 +3,7 @@ extends layout
 block content
   h1 Benvenuto nella Rating App
   a.btn.btn-success.mt-3(href="/recensione") Aggiungi recensione
+  hr
+  h2 Ultime Recensioni
+  include mixins.pug
+  +recensioniList(recensioni)

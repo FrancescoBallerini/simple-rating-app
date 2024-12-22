@@ -1,0 +1,3 @@
+- aggiungere data_creazione in post /recensione
+- sotto al pulsante "aggiungi recensione" in Home, mettere la list-view delle recensioni ordinate per data piu' recente
+- definire e aggiungere filtri

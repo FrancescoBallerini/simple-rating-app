@@ -12,19 +12,27 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-	res.render('index', { title: 'Home', active: 'home' });
-});
-  
-app.get('/recensioni', (req, res) => {
-	db.all('SELECT * FROM recensioni', [], (err, rows) => {
-		if (err) {
+	db.all('SELECT * FROM recensioni ORDER BY id DESC LIMIT 5', [], (err, rows) => {
+	  if (err) {
 		console.error(err.message);
 		res.status(500).send('Errore nel recupero delle recensioni');
-		} else {
-		res.render('recensioni_listview', { title: 'Recensioni', active: 'recensioni', recensioni: rows });
-		}
+	  } else {
+		res.render('index', { title: 'Home', active: 'home', recensioni: rows });
+	  }
 	});
-});
+  });
+  
+  app.get('/recensioni', (req, res) => {
+	db.all('SELECT * FROM recensioni', [], (err, rows) => {
+	  if (err) {
+		console.error(err.message);
+		res.status(500).send('Errore nel recupero delle recensioni');
+	  } else {
+		res.render('recensioni_listview', { title: 'Recensioni', active: 'recensioni', recensioni: rows });
+	  }
+	});
+  });
+  
 
 app.get('/recensione', (req, res) => {
     res.render('recensione', { titolo: 'Aggiungi Recensione' });

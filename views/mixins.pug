@@ -1,0 +1,10 @@
+mixin recensioniList(recensioni)
+  if recensioni.length > 0
+    ul.list-group
+      each recensione in recensioni
+        li.list-group-item
+          h5 #{recensione.titolo}
+          p #{recensione.descrizione}
+          p Voto: #{recensione.voto || 0}
+  else
+    p Nessuna recensione disponibile.
