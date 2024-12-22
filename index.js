@@ -27,19 +27,19 @@ app.get('/recensioni', (req, res) => {
 });
 
 app.get('/recensione', (req, res) => {
-    res.render('recensione', { title: 'Aggiungi Recensione' });
+    res.render('recensione', { titolo: 'Aggiungi Recensione' });
 });
 
 app.post('/recensione', async (req, res) => {
-    const { title, content } = req.body; // Usa i campi definiti nel form
+    const { titolo, descrizione, voto} = req.body; // Usa i campi definiti nel form
 
     // Verifica se i dati sono stati ricevuti correttamente
-    console.log("Dati ricevuti:", { title, content });
+    console.log("Dati ricevuti:", { titolo, descrizione, voto });
 
     // Puoi aggiungere qui la logica per salvare la recensione nel database
     db.run(
-        'INSERT INTO recensioni (titolo, descrizione) VALUES (?, ?)',
-        [title, content],
+        'INSERT INTO recensioni (titolo, descrizione, voto) VALUES (?, ?, ?)',
+        [titolo, descrizione, voto],
         function (err) {
             if (err) {
                 console.error("Errore nell'inserimento:", err.message);

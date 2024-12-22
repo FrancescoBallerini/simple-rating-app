@@ -1,4 +1,4 @@
-extends index 
+extends layout
 
 block content
   h1 Aggiungi una nuova recensione
@@ -9,4 +9,49 @@ block content
     .mb-3
       label(for="descrizione") Descrizione
       textarea#descrizione.form-control(name="descrizione" rows="5" required)
+    .mb-3
+      label(for="voto") Voto
+      .rating
+        input(type="hidden" id="voto" name="voto" value="0")
+        i.star.fas.fa-star(data-value="1")
+        i.star.fas.fa-star(data-value="2")
+        i.star.fas.fa-star(data-value="3")
+        i.star.fas.fa-star(data-value="4")
+        i.star.fas.fa-star(data-value="5")
     button.btn.btn-success(type="submit") Salva
+
+block append head
+  // Include Font Awesome per le stelle
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
+  style.
+    .rating .star {
+      font-size: 2rem;
+      color: lightgray;
+      cursor: pointer;
+    }
+    .rating .star.selected {
+      color: gold;
+    }
+
+block append scripts
+  script.
+    document.addEventListener("DOMContentLoaded", () => {
+      const stars = document.querySelectorAll(".star");
+      const votoInput = document.getElementById("voto");
+
+      stars.forEach((star) => {
+        star.addEventListener("click", () => {
+          const value = star.getAttribute("data-value");
+          votoInput.value = value;
+
+          // Aggiorna la visualizzazione delle stelle
+          stars.forEach((s) => {
+            if (s.getAttribute("data-value") <= value) {
+              s.classList.add("selected");
+            } else {
+              s.classList.remove("selected");
+            }
+          });
+        });
+      });
+    });
