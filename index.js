@@ -12,7 +12,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-	db.all('SELECT * FROM recensioni ORDER BY id DESC LIMIT 5', [], (err, rows) => {
+	db.all('SELECT * FROM recensioni ORDER BY data_creazione DESC LIMIT 5', [], (err, rows) => {
 	  if (err) {
 		console.error(err.message);
 		res.status(500).send('Errore nel recupero delle recensioni');
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   });
   
   app.get('/recensioni', (req, res) => {
-	db.all('SELECT * FROM recensioni', [], (err, rows) => {
+	db.all('SELECT * FROM recensioni ORDER BY data_creazione DESC', [], (err, rows) => {
 	  if (err) {
 		console.error(err.message);
 		res.status(500).send('Errore nel recupero delle recensioni');
