@@ -1,7 +1,7 @@
 const express = require('express');
 const util = require('util');
 const db = require('./database'); // Importa il database
-const upl = require('./storage') // Importa la configurazione di multer per lo storage delle immagini
+const upload = require('./storage'); // Importa la configurazione di multer per lo storage delle immagini
 const app = express();
 const PORT = 3000;
 
