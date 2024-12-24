@@ -6,5 +6,6 @@ mixin recensioniList(recensioni)
           h5 #{recensione.titolo}
           p #{recensione.descrizione}
           p Voto: #{recensione.voto || 0}
+          p.text-muted.text-end(style="font-style: italic;") Data creazione: #{recensione.data_creazione}
   else
     p Nessuna recensione disponibile.

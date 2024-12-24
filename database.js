@@ -16,7 +16,8 @@ db.run(`
     titolo TEXT NOT NULL,
     descrizione TEXT NOT NULL,
     immagine TEXT,
-    voto INTEGER NOT NULL
+    voto INTEGER NOT NULL,
+	data_creazione DATETIME DEFAULT CURRENT_TIMESTAMP
   )
 `);
 
