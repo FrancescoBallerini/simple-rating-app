@@ -5,7 +5,12 @@ mixin recensioniList(recensioni)
         li.list-group-item
           h5 #{recensione.titolo}
           p #{recensione.descrizione}
-          p Voto: #{recensione.voto || 0}
+          .rating
+            - for (let i = 1; i <= 5; i++)
+              if i <= recensione.voto
+                i.star.fas.fa-star(style="color: gold; font-size: 1.5rem;")
+              else
+                i.star.fas.fa-star(style="color: lightgray; font-size: 1.5rem;")
           p.text-muted.text-end(style="font-style: italic;") Data creazione: #{recensione.data_creazione}
   else
     p Nessuna recensione disponibile.
