@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
         console.error(err.message);
         res.status(500).send('Errore nel recupero delle recensioni');
       } else {
-        res.render('index', { title: 'Home', active: 'home', recensioni: rows });
+        res.render('index', { title: 'Home', active: 'home', recensioni: rows, currentPage: 0, totalPages: 0 });
       }
     });
   });
