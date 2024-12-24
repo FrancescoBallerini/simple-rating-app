@@ -34,11 +34,11 @@ app.get('/', (req, res) => {
   });
   
 
-app.get('/recensione', (req, res) => {
-    res.render('recensione', { titolo: 'Aggiungi Recensione' });
+app.get('/nuova_recensione', (req, res) => {
+    res.render('nuova_recensione', { titolo: 'Aggiungi Recensione' });
 });
 
-app.post('/recensione', async (req, res) => {
+app.post('/nuova_recensione', async (req, res) => {
     const { titolo, descrizione, voto} = req.body; // Usa i campi definiti nel form
 
     // Verifica se i dati sono stati ricevuti correttamente
