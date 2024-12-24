@@ -1,6 +1,7 @@
 const express = require('express');
 const util = require('util');
 const db = require('./database'); // Importa il database
+const upl = require('./storage') // Importa la configurazione di multer per lo storage delle immagini
 const app = express();
 const PORT = 3000;
 
@@ -11,8 +12,6 @@ app.set('views', './views');
 // Middleware per file statici e parsing del body
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
-
-
 
 // Converte `db.get` e `db.all` in versioni che supportano Promesse
 db.getAsync = util.promisify(db.get);
