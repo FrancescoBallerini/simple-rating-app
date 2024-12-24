@@ -1,4 +1,5 @@
 const express = require('express');
+const util = require('util');
 const db = require('./database'); // Importa il database
 const app = express();
 const PORT = 3000;
@@ -11,27 +12,55 @@ app.set('views', './views');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
+
+
+// Converte `db.get` e `db.all` in versioni che supportano Promesse
+db.getAsync = util.promisify(db.get);
+db.allAsync = util.promisify(db.all);
+
 app.get('/', (req, res) => {
-	db.all('SELECT * FROM recensioni ORDER BY data_creazione DESC LIMIT 5', [], (err, rows) => {
-	  if (err) {
-		console.error(err.message);
-		res.status(500).send('Errore nel recupero delle recensioni');
-	  } else {
-		res.render('index', { title: 'Home', active: 'home', recensioni: rows });
-	  }
-	});
+    db.all('SELECT * FROM recensioni ORDER BY data_creazione DESC LIMIT 5', [], (err, rows) => {
+      if (err) {
+        console.error(err.message);
+        res.status(500).send('Errore nel recupero delle recensioni');
+      } else {
+        res.render('index', { title: 'Home', active: 'home', recensioni: rows });
+      }
+    });
   });
   
-  app.get('/recensioni', (req, res) => {
-	db.all('SELECT * FROM recensioni ORDER BY data_creazione DESC', [], (err, rows) => {
-	  if (err) {
-		console.error(err.message);
-		res.status(500).send('Errore nel recupero delle recensioni');
-	  } else {
-		res.render('recensioni_listview', { title: 'Recensioni', active: 'recensioni', recensioni: rows });
-	  }
-	});
+  app.get('/recensioni', async (req, res) => {
+    try {
+      const perPage = 2; // Numero di recensioni per pagina
+      const page = parseInt(req.query.page) || 1; // Pagina corrente
+      const offset = (page - 1) * perPage;
+  
+      // Ottieni il numero totale di recensioni
+      const countResult = await db.getAsync('SELECT COUNT(*) AS total FROM recensioni');
+      const total = countResult.total; // Totale delle recensioni
+      const totalPages = Math.ceil(total / perPage); // Numero totale di pagine
+  
+      // Ottieni le recensioni della pagina corrente
+      const rows = await db.allAsync(
+        `SELECT * FROM recensioni ORDER BY data_creazione DESC LIMIT ? OFFSET ?`,
+        [perPage, offset]
+      );
+  
+      // Renderizza la pagina solo quando i dati sono pronti
+      res.render('recensioni_listview', {
+        title: 'Recensioni',
+        active: 'recensioni',
+        recensioni: rows,
+        currentPage: page,
+        totalPages: totalPages,
+      });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Errore nel recupero delle recensioni');
+    }
   });
+  
+  
   
 
 app.get('/nuova_recensione', (req, res) => {
