@@ -59,21 +59,19 @@ app.get('/', (req, res) => {
     }
   });
   
-  
-  
-
 app.get('/nuova_recensione', (req, res) => {
     res.render('nuova_recensione', { title: 'Aggiungi Recensione' });
 });
 
-app.post('/nuova_recensione', async (req, res) => {
+app.post('/nuova_recensione', upload.single('immagine'), async (req, res) => {
     const { titolo, descrizione, voto} = req.body;
-
-    console.log("Dati ricevuti:", { titolo, descrizione, voto });
+	const immagine = req.file ? `/static/image/${req.file.filename}` : null; // Salva il percorso relativo all'immagine
+	
+    // console.log("Dati ricevuti:", { titolo, descrizione, voto });
 
     db.run(
-        'INSERT INTO recensioni (titolo, descrizione, voto) VALUES (?, ?, ?)',
-        [titolo, descrizione, voto],
+        'INSERT INTO recensioni (titolo, descrizione, immagine, voto) VALUES (?, ?, ?, ?)',
+        [titolo, descrizione, immagine, voto],
         function (err) {
             if (err) {
                 console.error("Errore nell'inserimento:", err.message);

@@ -18,18 +18,22 @@ mixin recensioniList(recensioni, currentPage, totalPages)
     ul.list-group
       each recensione in recensioni
         li.list-group-item
-          h5 #{recensione.titolo}
-          p #{recensione.descrizione}
-          .rating
-            - for (let i = 1; i <= 5; i++)
-              if i <= recensione.voto
-                i.star.fas.fa-star(style="color: gold; font-size: 1.5rem;")
-              else
-                i.star.fas.fa-star(style="color: lightgray; font-size: 1.5rem;")
-          p.text-muted.text-end(style="font-style: italic;") Data creazione: #{recensione.data_creazione}
+          if recensione.immagine
+            img(src=recensione.immagine alt="Immagine recensione")
+          .recensione-content
+            br
+            h5 #{recensione.titolo}
+            br
+            p #{recensione.descrizione}
+            .rating
+              - for (let i = 1; i <= 5; i++)
+                if i <= recensione.voto
+                  i.star.fas.fa-star(style="color: gold; font-size: 1.5rem;")
+                else
+                  i.star.fas.fa-star(style="color: lightgray; font-size: 1.5rem;")
+            p.text-muted.text-end(style="font-style: italic;") Data creazione: #{recensione.data_creazione}
     if recensioni.length > 10
-      +pager(currentPage, totalPages)
+      +pager(currentPage, totalPages) // Pager sotto la lista
   else
     p Nessuna recensione disponibile.
-
 

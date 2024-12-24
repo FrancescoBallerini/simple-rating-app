@@ -1,2 +1,3 @@
 - definire e aggiungere filtri
-- aggiungere campo foto alla view
+- definire min width per listview elements
+- formview on click list-element (readonly no inserimento)

@@ -2,13 +2,16 @@ extends layout
 
 block content
   h1 Aggiungi una nuova recensione
-  form(method="POST" action="/nuova_recensione")
+  form(method="POST" action="/nuova_recensione" enctype="multipart/form-data")
     .mb-3
       label(for="titolo") Titolo
       input#titolo.form-control(type="text" name="titolo" required)
     .mb-3
       label(for="descrizione") Descrizione
       textarea#descrizione.form-control(name="descrizione" rows="5" required)
+    .mb-3
+      label(for="immagine") Carica un'immagine
+      input#immagine.form-control(type="file" name="immagine" accept="image/*" required)
     .mb-3
       label(for="voto") Voto
       .rating
@@ -19,20 +22,6 @@ block content
         i.star.fas.fa-star(data-value="4")
         i.star.fas.fa-star(data-value="5")
     button.btn.btn-success(type="submit") Salva
-
-block append head 
-  style.
-    .rating .star {
-      font-size: 2rem;
-      color: lightgray;
-      cursor: pointer;
-    }
-    .rating .star.hover {
-      color: gold; /* Colore stelle illuminate */
-    }
-    .rating .star.selected {
-      color: gold;
-    }
 
 block append scripts
   script.
