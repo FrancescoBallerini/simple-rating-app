@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
   
   app.get('/recensioni', async (req, res) => {
     try {
-      const perPage = 2; // Numero di recensioni per pagina
+      const perPage = 5; // Numero di recensioni per pagina
       const page = parseInt(req.query.page) || 1; // Pagina corrente
       const offset = (page - 1) * perPage;
   

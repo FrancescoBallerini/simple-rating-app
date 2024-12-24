@@ -1,5 +1,20 @@
+mixin pager(currentPage, totalPages)
+  if totalPages > 1
+    nav.mt-4
+      ul.pagination
+        if currentPage > 1
+          li.page-item
+            a.page-link(href=`/recensioni?page=${currentPage - 1}`) « Precedente
+        each page in [...Array(totalPages).keys()]
+          li.page-item(class=(page + 1 === currentPage) ? 'active' : '')
+            a.page-link(href=`/recensioni?page=${page + 1}`) #{page + 1}
+        if currentPage < totalPages
+          li.page-item
+            a.page-link(href=`/recensioni?page=${currentPage + 1}`) Successivo »
+            
 mixin recensioniList(recensioni, currentPage, totalPages)
   if recensioni.length > 0
+    +pager(currentPage, totalPages) // Pager sopra la lista
     ul.list-group
       each recensione in recensioni
         li.list-group-item
@@ -12,16 +27,9 @@ mixin recensioniList(recensioni, currentPage, totalPages)
               else
                 i.star.fas.fa-star(style="color: lightgray; font-size: 1.5rem;")
           p.text-muted.text-end(style="font-style: italic;") Data creazione: #{recensione.data_creazione}
-    nav.mt-4
-      ul.pagination
-        if currentPage > 1
-          li.page-item
-            a.page-link(href=`/recensioni?page=${currentPage - 1}`) « Precedente
-        each page in [...Array(totalPages).keys()]
-          li.page-item(class=(page + 1 === currentPage) ? 'active' : '')
-            a.page-link(href=`/recensioni?page=${page + 1}`) #{page + 1}
-        if currentPage < totalPages
-          li.page-item
-            a.page-link(href=`/recensioni?page=${currentPage + 1}`) Successivo »
+    if recensioni.length > 10
+      +pager(currentPage, totalPages)
   else
     p Nessuna recensione disponibile.
+
+
