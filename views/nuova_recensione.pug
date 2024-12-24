@@ -20,14 +20,15 @@ block content
         i.star.fas.fa-star(data-value="5")
     button.btn.btn-success(type="submit") Salva
 
-block append head
-  // Include Font Awesome per le stelle
-  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
+block append head 
   style.
     .rating .star {
       font-size: 2rem;
       color: lightgray;
       cursor: pointer;
+    }
+    .rating .star.hover {
+      color: gold; /* Colore stelle illuminate */
     }
     .rating .star.selected {
       color: gold;
@@ -40,11 +41,31 @@ block append scripts
       const votoInput = document.getElementById("voto");
 
       stars.forEach((star) => {
+        // Aggiunge effetto hover
+        star.addEventListener("mouseover", () => {
+          const value = star.getAttribute("data-value");
+
+          // Illumina tutte le stelle fino a quella corrente
+          stars.forEach((s) => {
+            if (s.getAttribute("data-value") <= value) {
+              s.classList.add("hover");
+            } else {
+              s.classList.remove("hover");
+            }
+          });
+        });
+
+        // Rimuove l'effetto hover quando il mouse esce
+        star.addEventListener("mouseout", () => {
+          stars.forEach((s) => s.classList.remove("hover"));
+        });
+
+        // Gestione click per selezionare la valutazione
         star.addEventListener("click", () => {
           const value = star.getAttribute("data-value");
           votoInput.value = value;
 
-          // Aggiorna la visualizzazione delle stelle
+          // Aggiorna le stelle selezionate
           stars.forEach((s) => {
             if (s.getAttribute("data-value") <= value) {
               s.classList.add("selected");

@@ -35,16 +35,14 @@ app.get('/', (req, res) => {
   
 
 app.get('/nuova_recensione', (req, res) => {
-    res.render('nuova_recensione', { titolo: 'Aggiungi Recensione' });
+    res.render('nuova_recensione', { title: 'Aggiungi Recensione' });
 });
 
 app.post('/nuova_recensione', async (req, res) => {
-    const { titolo, descrizione, voto} = req.body; // Usa i campi definiti nel form
+    const { titolo, descrizione, voto} = req.body;
 
-    // Verifica se i dati sono stati ricevuti correttamente
     console.log("Dati ricevuti:", { titolo, descrizione, voto });
 
-    // Puoi aggiungere qui la logica per salvare la recensione nel database
     db.run(
         'INSERT INTO recensioni (titolo, descrizione, voto) VALUES (?, ?, ?)',
         [titolo, descrizione, voto],
@@ -54,7 +52,7 @@ app.post('/nuova_recensione', async (req, res) => {
                 return res.status(500).send('Errore durante il salvataggio della recensione');
             }
             console.log(`Recensione salvata con ID: ${this.lastID}`);
-            res.redirect('/recensioni'); // Reindirizza alla lista delle recensioni
+            res.redirect('/recensioni');
         }
     );
 });
